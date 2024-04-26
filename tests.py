@@ -2,6 +2,7 @@
 
 import unittest
 from humanize_duration import humanize_duration
+from valid_braces import valid_braces
 
 
 class TestPyStuff(unittest.TestCase):
@@ -23,6 +24,13 @@ class TestPyStuff(unittest.TestCase):
             result = humanize_duration(check['input'])
             msg = f'Expecting {check["expected"]}, but got {result}'
             self.assertEqual(result, check['expected'], msg)
+
+    def test_valid_braces(self):
+        self.assertTrue(valid_braces(''), 'expected True')
+        self.assertTrue(valid_braces('{}'), 'expected True')
+        self.assertTrue(valid_braces('{}()[]{{{{([])}}}}'), 'expected True')
+        self.assertFalse(valid_braces('('), 'expected False')
+        self.assertFalse(valid_braces(']{{}}(())'), 'expected False')
 
 
 if __name__ == '__main__':
